@@ -7,13 +7,13 @@ We define "succeed" here as a project that was successfully funded.
 
 ---
 
-### The Kickstarter 300,000 projects' dataset
+### The Kickstarter 378,661 projects' dataset
 
 Our dataset can be found here:
 
 https://www.kaggle.com/kemical/kickstarter-projects
 
-The dataset we are using contains over 300,000 projects that were hosted by Kickstarter, and last updated in 2018.
+The dataset we are using contains 378,661 projects that were hosted by Kickstarter, and last updated in 2018.
 
 The dataset contains 15 labels (ID, name, main_category, etc). Our methodology is to compare which projects succeded,
 and develop a model that predicts a project's success based on those factors.
