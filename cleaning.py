@@ -11,7 +11,7 @@ import numpy as np
 class Cleaning(object):
     
     def __init__(self, name):
-    
+        
         self.df = pd.read_csv(name)
         self.clean = pd.DataFrame()
         
@@ -37,23 +37,19 @@ class Cleaning(object):
             self.succ_map[funded[i]] = i
             i += 1
         
-        print(self.count_map)
-        print(self.curr_map)
-        print(self.succ_map)
-   
-        Cleaning.copying(self)
-        Cleaning.add(self)
-        Cleaning.str_int(self)
-        Cleaning.quant_values(self)
-        Cleaning.saveit(self)
+        print("Dictionaires to map countries, currinces, and success outcome:\n")
+        print("Countries dictionary:\n" + str(self.count_map) + "\n\n")
+        print("currinces dictionary:\n" + str(self.curr_map)  + "\n\n")
+        print("success dictionary:\n" + str(self.succ_map)  + "\n\n")
         
         
     def copying(self):
         
+        print("\nCopying columns to the clean file in preparation...\n")
         self.clean["Country"] = self.df["country"]
         self.clean["Currency"] = self.df["currency"]
-        self.clean["Start"] = self.df["launched"]
-        self.clean["End"] = self.df["deadline"]
+        #self.clean["Start"] = self.df["launched"]
+        #self.clean["End"] = self.df["deadline"]
         self.clean["Goal"] = self.df["goal"]
         self.clean["GoalAdjusted"] = self.df["usd_goal_real"]
         self.clean["Raised"] = self.df["usd pledged"]
@@ -63,13 +59,14 @@ class Cleaning(object):
     
     def add(self):
         
+        print("\nPrinting info and filling empty elements with 0...\n")
         if (self.df.isnull().values.any()):
             print("\nData is not clean. NaN detected.\n--------------------------------\n")
             print("Data dimensions: " + str(self.df.shape) + "\n")
             
             # Missing values calcuation
             ZeroValues = self.df.isnull().sum()
-            print("Number of zero values in each column:\n\n" + str(ZeroValues) + "\n")
+            print("Number of non-defined values in each column:\n\n" + str(ZeroValues) + "\n")
             TotalCells = np.product(self.df.shape)
             Total = ZeroValues.sum()
             print("Missing data percentage: %" +str(round((Total/TotalCells) * 100, 4)))
@@ -89,37 +86,23 @@ class Cleaning(object):
 
 
     def quant_values(self):
+        
         print("\nConverting strings to numbers for model calculation...\n")
         self.clean["Country"] = self.clean["Country"].map(self.count_map)
         self.clean["Currency"] = self.clean["Currency"].map(self.curr_map)
         self.clean["State"] = self.clean["State"].map(self.succ_map)
         
-    
-        
     def saveit(self):
-        print("\nSaving file...\n")
         
+        print("\nSaving file...\n")
         self.clean.to_csv("clean.csv", index = False)
         print("Cleaned data, and placed it in file 'clean.csv'")
 
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+
+
+if __name__ == "__main__":
+    print("\nFile intended as read-only. Please use start.sh")
+    exit
         
         
         
