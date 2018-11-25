@@ -11,11 +11,26 @@ ECEN 649 Project: KickStarterChance
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from cleaning import Cleaning
 
+   
 def main():
     
-    df = pd.read_csv("ks2018.csv")
-    print("Data dimensions: " + str(df.shape))
 
+    FileName = "ks2018.csv"
+    
+    model = Cleaning(FileName)
+
+    
+    
 if __name__ == "__main__":
     main()
+    
+    
+    
+    
+    
+    
+    
+    
+    
