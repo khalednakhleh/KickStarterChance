@@ -41,8 +41,7 @@ class Cleaning(object):
         print("Countries dictionary:\n" + str(self.count_map) + "\n\n")
         print("currinces dictionary:\n" + str(self.curr_map)  + "\n\n")
         print("success dictionary:\n" + str(self.succ_map)  + "\n\n")
-        
-        
+    
     def copying(self):
         
         print("\nCopying columns to the clean file in preparation...\n")
@@ -84,7 +83,6 @@ class Cleaning(object):
         self.clean['UpperCase'] = self.df["name"].str.findall(r"[A-Z]").str.len()
         self.clean['LowerCase'] = self.df["name"].str.findall(r"[a-z]").str.len()
 
-
     def quant_values(self):
         
         print("\nConverting strings to numbers for model calculation...\n")
@@ -99,16 +97,8 @@ class Cleaning(object):
         print("Cleaned data, and placed it in file 'clean.csv'")
 
 
-
 if __name__ == "__main__":
     print("\nFile intended as read-only. Please use start.sh")
     exit
         
         
-        
-        
-        
-        
-        
-        
-    
