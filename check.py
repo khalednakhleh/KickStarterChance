@@ -69,7 +69,7 @@ would succeed, fail, get canceled, live, get suspended, or be undefined.")
     print("\n----------------------------------\n")
  
     for outcome, value in success_map.items():
-        if value == pred[0]:
+        if value == pred:
             print("Project is expected to: {} ".format(outcome))
     
     exit
