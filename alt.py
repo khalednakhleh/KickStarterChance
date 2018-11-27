@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Sun Nov 25 14:44:18 2018
+Created on Tue Nov 27 10:59:02 2018
 
 Name: khalednakhleh
 """
-
-from keras.models import load_model
 import numpy as np
+from sklearn.linear_model import LogisticRegression as lr
+from timeit import default_timer as timer
+import pandas as pd
 
 def calc(name,country,currency,goal,adj_goal,raised,adj_raised,backers):
     
@@ -33,15 +34,32 @@ def calc(name,country,currency,goal,adj_goal,raised,adj_raised,backers):
     input_value = np.array([name_len, upper_len, lower_len, country, currency,
                             goal, adj_goal, raised, adj_raised, backers])
     return input_value
+
+
+def prediction(x, y, t):
+    """ This function is an amalgamation of different minute tasks that 
+    I just gatherd into a singal call function to ease work."""
     
-def prediction(y_test):
+    start = timer()                            # Start timer
+    pred = lr(solver = "saga", tol = 0.01, max_iter = 300)
+    pred.fit(x,y)                              # Predictor training
+    pred.end = timer() - start                 # End timer
+    pred.labels = pred.predict(t)              # Predicting correct labels
     
-    model = load_model("model.h5")
-    prediction = model.predict_classes(y_test)
+    # Printing some information for user
+    print("------------------------------------------")
+    print("\nLogistic Regression error percentage: " + str(round((pred.error * 100), 5)) + " %")
+    print("\nLogistic Regression run time: ", round(pred.end, 5), " seconds.\n\n\n")
     
-    return prediction
-    
+    return pred
+
+
 def main():
+    
+    data = pd.read_csv("clean.csv")
+    
+    X_train = data.iloc[:, 0:10]
+    y_train = data.iloc[:, 10]
     
     # Defining the success dictionary for mapping values
     success_map = {'fail': 0, 'get canceled': 1, 'be successful': 2,
@@ -63,9 +81,10 @@ would succeed, fail, get canceled, live, get suspended, or be undefined.")
     backers = input("Projected number of backers (default = 99): ") or 99
 
     y_test = calc(name,country,currency,goal,adj_goal,raised,adj_raised,backers)
-    y_test = np.reshape(y_test, (1, 10))
-    
-    pred = prediction(y_test)
+    print(y_test)
+    #y_test = np.reshape(y_test, (1, 10))
+    print(y_test)
+    pred = prediction(X_train, y_train, y_test)
 
     print("\n----------------------------------\n")
  
@@ -75,6 +94,7 @@ would succeed, fail, get canceled, live, get suspended, or be undefined.")
             print("Project is expected to: {} ".format(outcome))
     
     exit
+    
     
 if __name__ == "__main__":
     main()
