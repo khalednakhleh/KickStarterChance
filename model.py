@@ -13,7 +13,6 @@ from keras import regularizers
 import pandas as pd
 from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
-from keras.layers.convolutional import Conv1D, MaxPooling1D
 import numpy as np
 
 def main():
@@ -46,15 +45,14 @@ def main():
 
     y_train = keras.utils.to_categorical(y_train)
     #y_test = keras.utils.to_categorical(y_test)
-    """
     model = Sequential()
-    model.add(Dense(512, input_dim = 10, activation='relu'))
-    model.add(Dense(256, kernel_initializer='uniform',  kernel_regularizer=regularizers.l2(0.3), activation='relu'))
-    model.add(Dense(128, kernel_initializer='uniform',  kernel_regularizer=regularizers.l2(0.15), activation='relu'))
-    model.add(Dense(64, kernel_initializer='uniform',kernel_regularizer=regularizers.l2(0.01), activation='relu'))
-    model.add(Dense(32, kernel_initializer='uniform',kernel_regularizer=regularizers.l2(0.01), activation='relu'))
-    model.add(Dense(16, kernel_initializer='uniform', kernel_regularizer=regularizers.l2(0.01), activation='relu'))
-    model.add(Dense(6, kernel_initializer='uniform', activation='softmax'))
+    model.add(Dense(32, input_dim = 10, activation='relu'))
+    model.add(Dense(32, kernel_initializer='glorot_uniform',  kernel_regularizer=regularizers.l2(0.3), activation='relu'))
+    model.add(Dense(64, kernel_initializer='glorot_uniform', kernel_regularizer=regularizers.l2(0.15), activation='relu'))
+    model.add(Dense(64, kernel_initializer='glorot_uniform',kernel_regularizer=regularizers.l2(0.01), activation='relu'))
+    model.add(Dense(128, kernel_initializer='glorot_uniform',kernel_regularizer=regularizers.l2(0.01), activation='relu'))
+    model.add(Dense(128, kernel_initializer='glorot_uniform', kernel_regularizer=regularizers.l2(0.01), activation='relu'))
+    model.add(Dense(6, activation='softmax'))
     
     """
     
@@ -72,7 +70,7 @@ def main():
     model.add(Dense(64, kernel_initializer='uniform', kernel_regularizer=regularizers.l2(0.1), activation='relu'))
     model.add(Dense(32, kernel_initializer='uniform', kernel_regularizer=regularizers.l2(0.01), activation='relu'))
     model.add(Dense(6, kernel_initializer='uniform', activation='softmax'))
-    
+    """
     
     model.compile(loss='categorical_crossentropy',
                   optimizer='sgd',

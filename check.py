@@ -47,7 +47,7 @@ def main():
     success_map = {'fail': 0, 'get canceled': 1, 'be successful': 2,
                        'live': 3, 'undefined': 4, 'get suspended': 5}
         
-    print("\n\t\t-----------------------------\n\t\tKickStarterChance.\
+    print("\n\t\t--------------------------keras---\n\t\tKickStarterChance.\
 Version 1.0.\n\t\t-----------------------------")
     
     print("\n\nThis program tries to guess whether a KickStarter project\
