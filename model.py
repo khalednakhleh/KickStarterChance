@@ -36,7 +36,7 @@ def main():
     y_train = (data.iloc[:, 10].values)
     
     #X_train, X_test, y_train, y_test = train_test_split(df, y, test_size = 0.2)
-    X_train = np.expand_dims(X_train, axis=2)
+    #X_train = np.expand_dims(X_train, axis=2)
     
     #print ("Validation data dimensions {} {}\n\n" .format(X_test.shape, y_test.shape))
     
@@ -73,12 +73,12 @@ def main():
     """
     
     model.compile(loss='categorical_crossentropy',
-                  optimizer='sgd',
+                  optimizer='adam',
                   metrics=['accuracy'])
     
     history = model.fit(X_train, y_train,
               epochs = 5,  
-              batch_size= 1024)
+              batch_size= 128)
     
     loss, accuracy  = model.evaluate(X_train, y_train)
 
