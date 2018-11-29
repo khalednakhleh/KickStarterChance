@@ -92,7 +92,9 @@ class Cleaning(object):
         
     def saveit(self):
         # Making sure clean has no NaN values
+        a = [1,3,4,5,6]
         self.clean = self.clean.fillna(0)
+        self.clean = self.clean[~self.clean['State'].isin(a)]
         print("\nSaving file...\n")
         self.clean.to_csv("clean.csv", index = False)
         print("Cleaned data, and placed it in file 'clean.csv'")
