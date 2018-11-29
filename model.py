@@ -9,17 +9,19 @@ Name: khalednakhleh
 import keras
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Flatten, LSTM
-from keras import regularizers
+#from keras impot regularizers
 import pandas as pd
 from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
 import numpy as np
+from sklearn.ensemble import RandomForestClassifier as rf
 
 def main():
     
     data = pd.read_csv("clean.csv")
     data.astype("float32")
-    
+    data.isnull().sum()
+    data=data.fillna(0)
     # Normalizing the data per label
     data.iloc[:, 0] /= max(data.iloc[:, 0])
     data.iloc[:, 1] /= max(data.iloc[:, 1])
@@ -35,7 +37,7 @@ def main():
     X_train = (data.iloc[:, 0:10].values)
     y_train = (data.iloc[:, 10].values)
     
-    #X_train, X_test, y_train, y_test = train_test_split(df, y, test_size = 0.2)
+    X_train, X_test, y_train, y_test = train_test_split(X_train, y_train, test_size = 0.2)
     #X_train = np.expand_dims(X_train, axis=2)
     
     #print ("Validation data dimensions {} {}\n\n" .format(X_test.shape, y_test.shape))
@@ -45,6 +47,9 @@ def main():
 
     y_train = keras.utils.to_categorical(y_train)
     #y_test = keras.utils.to_categorical(y_test)
+    clf=rf(n_estimators=100, max_depth=5,random_state=0)
+    clf.fit(X_train,y_train)
+    """
     model = Sequential()
     model.add(Dense(32, input_dim = 10, activation='relu'))
     model.add(Dense(32, kernel_initializer='glorot_uniform',  kernel_regularizer=regularizers.l2(0.3), activation='relu'))
@@ -53,7 +58,7 @@ def main():
     model.add(Dense(128, kernel_initializer='glorot_uniform',kernel_regularizer=regularizers.l2(0.01), activation='relu'))
     model.add(Dense(128, kernel_initializer='glorot_uniform', kernel_regularizer=regularizers.l2(0.01), activation='relu'))
     model.add(Dense(6, activation='softmax'))
-    
+    """
     """
     
     model = Sequential()
