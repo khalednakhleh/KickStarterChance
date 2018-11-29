@@ -8,10 +8,10 @@ Name: khalednakhleh
 
 import keras
 from keras.models import Sequential
-from keras.layers import Dense, Dropout, Flatten, LSTM
+#from keras.layers import Dense, Dropout, Flatten, LSTM
 from keras import regularizers
 import pandas as pd
-from sklearn.model_selection import train_test_split
+#from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
 from keras.layers.convolutional import Conv1D, MaxPooling1D
 import numpy as np
@@ -46,6 +46,7 @@ def main():
 
     y_train = keras.utils.to_categorical(y_train)
     #y_test = keras.utils.to_categorical(y_test)
+    
     """
     model = Sequential()
     model.add(Dense(512, input_dim = 10, activation='relu'))
@@ -56,7 +57,7 @@ def main():
     model.add(Dense(16, kernel_initializer='uniform', kernel_regularizer=regularizers.l2(0.01), activation='relu'))
     model.add(Dense(6, kernel_initializer='uniform', activation='softmax'))
     
-    """
+    
     
     model = Sequential()
     model.add(Conv1D(16, 3, input_shape = (10, 1), activation='relu'))
@@ -72,7 +73,7 @@ def main():
     model.add(Dense(64, kernel_initializer='uniform', kernel_regularizer=regularizers.l2(0.1), activation='relu'))
     model.add(Dense(32, kernel_initializer='uniform', kernel_regularizer=regularizers.l2(0.01), activation='relu'))
     model.add(Dense(6, kernel_initializer='uniform', activation='softmax'))
-    
+
     
     model.compile(loss='categorical_crossentropy',
                   optimizer='sgd',
@@ -107,6 +108,6 @@ def main():
     plt.show()
 
     model.save("model.h5")
-    
+    """
 if __name__ == "__main__":
     main()

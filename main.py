@@ -17,9 +17,9 @@ def main():
     FileName = "ks2018.csv"
     
     clean = Cleaning(FileName)
+    clean.add()
     clean.str_int()
     clean.copying()
-    clean.add()
     clean.quant_values()
     clean.saveit()       
     

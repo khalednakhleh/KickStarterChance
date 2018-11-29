@@ -6,8 +6,28 @@ Created on Sun Nov 25 14:44:18 2018
 Name: khalednakhleh
 """
 
+from sklearn.linear_model import LogisticRegression as lr
+from sklearn.model_selection import train_test_split
 from keras.models import load_model
 import numpy as np
+import pandas as pd
+
+def log_reg(x, y, t, q):
+    """ This function is an amalgamation of different minute tasks that 
+    I just gatherd into a singal call function to ease work."""
+    
+    pred = lr(solver = "saga", tol = 0.001, max_iter = 600,
+              multi_class = "auto", n_jobs = -1, fit_intercept = True)
+    pred.fit(x,y)                              # Predictor training
+    g = pred.score(t,q)           # Predictor test
+    pred = pred.predict(t)                     # Predicting correct labels
+    
+    # Printing some information for user
+    print("------------------------------------------")
+    print("accuracy rate is %{}" .format(round(g * 100 , 3)))
+    print("Error rate is %{}" .format(round((1 - g) * 100 , 3)))
+    
+    return pred
 
 def calc(name,country,currency,goal,adj_goal,raised,adj_raised,backers):
     
@@ -33,48 +53,39 @@ def calc(name,country,currency,goal,adj_goal,raised,adj_raised,backers):
     input_value = np.array([name_len, upper_len, lower_len, country, currency,
                             goal, adj_goal, raised, adj_raised, backers])
     return input_value
-    
-def prediction(y_test):
-    
-    model = load_model("model.h5")
-    prediction = model.predict_classes(y_test)
-    
-    return prediction
-    
+
+
 def main():
     
     # Defining the success dictionary for mapping values
     success_map = {'fail': 0, 'get canceled': 1, 'be successful': 2,
                        'live': 3, 'undefined': 4, 'get suspended': 5}
-        
-    print("\n\t\t-----------------------------\n\t\tKickStarterChance.\
-Version 1.0.\n\t\t-----------------------------")
     
-    print("\n\nThis program tries to guess whether a KickStarter project\
-would succeed, fail, get canceled, live, get suspended, or be undefined.")
+    data = pd.read_csv("clean.csv")
+    #data.astype("float32")
     
-    name = input("Enter project name(default = Cool Gadgets): ") or "Cool Gadgets"
-    country = input("Country were project was started (default = US): ") or "US"
-    currency = input("Currency used for funding (default = USD): ") or "USD"
-    goal = input("Funding goal (default = 42069): ") or 42069
-    adj_goal = input("Adjusted funding goal (default = 69420): ") or 69420
-    raised = input("Projected raised amount (default = 4242): ") or 4242
-    adj_raised = input("Adjusted raised amount (default = 2424): ") or 2424
-    backers = input("Projected number of backers (default = 99): ") or 99
+    # Normalizing the data per label
+    data.iloc[:, 0] /= max(data.iloc[:, 0])
+    data.iloc[:, 1] /= max(data.iloc[:, 1])
+    data.iloc[:, 2] /= max(data.iloc[:, 2])
+    data.iloc[:, 3] /= max(data.iloc[:, 3])
+    data.iloc[:, 4] /= max(data.iloc[:, 4])
+    data.iloc[:, 5] /= max(data.iloc[:, 5])
+    data.iloc[:, 6] /= max(data.iloc[:, 6])
+    data.iloc[:, 7] /= max(data.iloc[:, 7])
+    data.iloc[:, 8] /= max(data.iloc[:, 8])
+    data.iloc[:, 9] /= max(data.iloc[:, 9])
 
-    y_test = calc(name,country,currency,goal,adj_goal,raised,adj_raised,backers)
-    y_test = np.reshape(y_test, (1, 10))
+    X_train = (data.iloc[:, 0:10])
+    y_train = (data.iloc[:, 10])
     
-    pred = prediction(y_test)
+    X_train, X_test, y_train, y_test = train_test_split(X_train, y_train, test_size = 0.25)
 
-    print("\n----------------------------------\n")
+    pred = log_reg(X_train, y_train, X_test, y_test)
+    
+    print(pred)
+    print("------------------------------------------\n")
  
-    # Mapping the prediction number to success dictionary
-    for outcome, value in success_map.items():
-        if value == pred:
-            print("Project is expected to: {} ".format(outcome))
-    
-    exit
-    
+
 if __name__ == "__main__":
     main()
