@@ -69,7 +69,7 @@ class Cleaning(object):
             TotalCells = np.product(self.df.shape)
             Total = ZeroValues.sum()
             print("Missing data percentage: %" +str(round((Total/TotalCells) * 100, 4)))
-
+            
             # Filling missing values with zero
             self.df = self.df.fillna(0)
             
@@ -90,8 +90,11 @@ class Cleaning(object):
         self.clean["Currency"] = self.clean["Currency"].map(self.curr_map)
         self.clean["State"] = self.clean["State"].map(self.succ_map)
         
-    def saveit(self)/kemical/kickstarter-projects:
-        
+    def saveit(self):
+        # Making sure clean has no NaN values
+        a = [1,3,4,5,6]
+        self.clean = self.clean.fillna(0)
+        self.clean = self.clean[~self.clean['State'].isin(a)]
         print("\nSaving file...\n")
         self.clean.to_csv("clean.csv", index = False)
         print("Cleaned data, and placed it in file 'clean.csv'")
